@@ -29,7 +29,7 @@ RSpec.describe DonationsController, type: :controller do
       let!(:dropoff_location) { create(:dropoff_location) }
       let(:line_items) { [create(:line_item)] }
 
-      it "redirects to GET#edit on success" do
+      it "redirects to GET#index on success" do
         post :create, params: default_params.merge(
           donation: { storage_location_id: storage_location.id,
                       dropoff_location_id: dropoff_location.id,

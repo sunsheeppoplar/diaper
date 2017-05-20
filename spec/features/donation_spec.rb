@@ -23,18 +23,21 @@ RSpec.feature "Donations", type: :feature do
       create(:dropoff_location)
       create(:storage_location)
       visit @url_prefix + "/donations/new"
-    end
 
-    scenario "User can fill out the form to create a new donation" do
       select DropoffLocation.first.name, from: "donation_dropoff_location_id"
       select StorageLocation.first.name, from: "donation_storage_location_id"
       select Donation::SOURCES.first, from: "donation_source"
       select Item.alphabetized.first.name, from: "donation_line_items_attributes_0_item_id"
       fill_in "donation_line_items_attributes_0_quantity", with: "5"
+    end
 
-      expect {
-        click_button "Create Donation"
-      }.to change{Donation.count}.by(1)
+    scenario "User can fill out the form to create a new donation" do
+      expect { click_button "Create Donation" }.to change{ Donation.count }.by(1)
+    end
+
+    scenario "The inventory at the given storage location increases by item quantity" do
+      click_button "Create Donation"
+      expect { click_button "Create Donation" }.to change{ StorageLocation.first.inventory_items.count }.by(1)
     end
   end
 
