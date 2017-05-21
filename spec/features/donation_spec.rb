@@ -6,6 +6,7 @@ RSpec.feature "Donations", type: :feature do
 
   context "When visiting the index page" do
     before(:each) do
+      create(:donation)
       visit @url_prefix + "/donations"
     end
 
@@ -14,6 +15,12 @@ RSpec.feature "Donations", type: :feature do
 
       expect(current_path).to eq(new_donation_path(@organization))
       expect(page).to have_content "Start a new donation"
+    end
+
+    scenario "User has basic crud links available", :focus do
+      expect(page).to have_link "View"
+      expect(page).to have_link "Edit"
+      expect(page).to have_link "Delete"
     end
   end
 
