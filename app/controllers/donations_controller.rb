@@ -54,6 +54,7 @@ class DonationsController < ApplicationController
     @donation.line_items.build
     @storage_locations = StorageLocation.all
     @dropoff_locations = DropoffLocation.all
+    @items = Item.alphabetized
   end
 
   def show
